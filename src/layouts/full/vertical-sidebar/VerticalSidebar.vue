@@ -131,9 +131,9 @@
         <!-- <ExtraBox /> -->
         <!-- move with User Information or something here -->
       </div>
-      <div class="pa-4 text-center">
+      <!-- <div class="pa-4 text-center">
         <v-chip color="inputBorder" size="small"> {{ 'v' + version }} </v-chip>
-      </div>
+      </div> -->
     </perfect-scrollbar>
   </v-navigation-drawer>
 </template>

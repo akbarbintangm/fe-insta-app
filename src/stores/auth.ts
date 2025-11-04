@@ -15,8 +15,8 @@ export const useAuthStore = defineStore('auth', {
     async login(email: string, password: string) {
       try {
         const response = await fetchWrapper.post(`${baseUrl}/login`, {
-          email,
-          password
+          email: email,
+          password: password
         });
         if (response.status !== 'success') {
           throw new Error(response.message || 'Login gagal');
@@ -27,6 +27,23 @@ export const useAuthStore = defineStore('auth', {
         this.user = { userData, token };
         localStorage.setItem('user', JSON.stringify(this.user));
         router.push(this.returnUrl || '/');
+      } catch (error: any) {
+        throw error.message || error;
+      }
+    },
+
+    async register(firstName: string, lastName: string, email: string, password: string) {
+      try {
+        let fullName = firstName + ' ' + (lastName ? ' ' + lastName : '');
+        const response = await fetchWrapper.post(`${baseUrl}/register`, {
+          name: fullName,
+          email: email,
+          password: password
+        });
+        if (response.status !== 'success') {
+          throw new Error(response.data.error || response.message || 'Register gagal');
+        }
+        await this.login(email, password);
       } catch (error: any) {
         throw error.message || error;
       }

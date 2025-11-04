@@ -1,37 +1,52 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
-  import Google from '@/assets/images/auth/social-google.svg';
+  import { ref, computed } from 'vue';
+  import { useAuthStore } from '@/stores/auth';
+  import { Form } from 'vee-validate';
+  // import Google from '@/assets/images/auth/social-google.svg';
+  const valid = ref(false);
   const checkbox = ref(false);
   const show1 = ref(false);
   const password = ref('');
   const email = ref('');
-  const Regform = ref();
   const firstname = ref('');
   const lastname = ref('');
   const passwordRules = ref([
     (v: string) => !!v || 'Password is required',
-    (v: string) => (v && v.length <= 10) || 'Password must be less than 10 characters'
+    // (v: string) => (v && v.length <= 10) || 'Password must be less than 10 characters'
   ]);
   const emailRules = ref([(v: string) => !!v || 'E-mail is required', (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid']);
 
-  function validate() {
-    Regform.value.validate();
+  const isFormInvalid = computed(() => {
+    return (
+      !firstname.value ||
+      !lastname.value ||
+      !email.value ||
+      !password.value ||
+      !checkbox.value
+    );
+  });
+
+  function validate(values: any, { setErrors }: any) {
+    const authStore = useAuthStore();
+    return authStore.register(firstname.value, lastname.value, email.value, password.value).catch((error) => {
+      setErrors({ apiError: error });
+    });
   }
 </script>
 
 <template>
-  <v-btn block color="primary" variant="outlined" class="text-lightText googleBtn">
+  <!-- <v-btn block color="primary" variant="outlined" class="text-lightText googleBtn">
     <img :src="Google" alt="google" />
-    <span class="ml-2">Sign up with Google</span></v-btn>
-  <v-row>
+    <span class="ml-2">Sign up with Google</span></v-btn> -->
+  <!-- <v-row>
     <v-col class="d-flex align-center">
       <v-divider class="custom-devider" />
       <v-btn variant="outlined" class="orbtn" rounded="md" size="small">OR</v-btn>
       <v-divider class="custom-devider" />
     </v-col>
-  </v-row>
-  <h5 class="text-h5 text-center my-4 mb-8">Sign up with Email address</h5>
-  <v-form ref="Regform" lazy-validation action="/dashboards/analytical" class="mt-7 loginForm">
+  </v-row> -->
+  <!-- <h5 class="text-h5 text-center my-4 mb-8">Sign up with Email address</h5> -->
+  <Form @submit="validate" class="mt-7 loginForm" v-slot="{ errors, isSubmitting }">
     <v-row>
       <v-col cols="12" sm="6">
         <v-text-field v-model="firstname" density="comfortable" hide-details="auto" variant="outlined" color="primary" label="Firstname"></v-text-field>
@@ -49,11 +64,14 @@
       <v-checkbox v-model="checkbox" :rules="[(v: any) => !!v || 'You must agree to continue!']" label="Agree with?" required color="primary" class="ms-n2" hide-details></v-checkbox>
       <a href="#" class="ml-1 text-lightText">Terms and Condition</a>
     </div>
-    <v-btn color="primary" block class="mt-2" variant="flat" size="large" @click="validate()">Sign Up</v-btn>
-  </v-form>
+    <v-btn :disabled="isFormInvalid" color="primary" :loading="isSubmitting" block class="mt-2" variant="flat" size="large" type="submit">Sign Up</v-btn>
+    <div v-if="errors.apiError" class="mt-2">
+      <v-alert color="error">{{ errors.apiError }}</v-alert>
+    </div>
+  </Form>
   <div class="mt-5 text-right">
     <v-divider />
-    <v-btn variant="plain" to="/login1" class="mt-2 text-capitalize mr-n2">Already have an account?</v-btn>
+    <v-btn variant="plain" to="/login" class="mt-2 text-capitalize mr-n2">Already have an account?</v-btn>
   </div>
 </template>
 <style lang="scss">

@@ -13,26 +13,26 @@
   <!-- profile DD -->
   <!-- ---------------------------------------------- -->
   <div class="pa-4">
-    <h4 class="mb-n1">Good Morning, <span class="font-weight-regular">John Doe</span></h4>
-    <span class="text-subtitle-2 text-medium-emphasis">Project admin</span>
+    <h4 class="mb-n1">Good Morning, <span class="font-weight-regular">{{ authStore.user.userData.name }}</span></h4>
+    <span class="text-subtitle-2 text-medium-emphasis">Normal Users</span>
 
-    <v-text-field persistent-placeholder placeholder="Search" class="my-3" color="primary" variant="outlined" hide-details>
+    <!-- <v-text-field persistent-placeholder placeholder="Search" class="my-3" color="primary" variant="outlined" hide-details>
       <template v-slot:prepend-inner>
         <SearchIcon stroke-width="1.5" size="20" class="text-lightText SearchIcon" />
       </template>
-    </v-text-field>
+</v-text-field> -->
 
     <v-divider></v-divider>
-    <perfect-scrollbar style="height: calc(100vh - 300px); max-height: 515px">
-      <div class="bg-lightwarning rounded-md pa-5 my-3 circle sm-circle lg-circle">
+    <perfect-scrollbar style="height: /* 300px */ 100%; max-height: 100%">
+      <!-- <div class="bg-lightwarning rounded-md pa-5 my-3 circle sm-circle lg-circle">
         <h4>Upgrade your plan</h4>
         <h6 class="text-subtitle-2 text-medium-emphasis mr-11 pr-11 mb-3 mt-2">70% discount for 1 years subscriptions.</h6>
         <v-btn color="warning" variant="flat" target="_" href="https://codedthemes.com/item/berry-vue-admin-dashboard/"> Go Premium </v-btn>
       </div>
 
-      <v-divider></v-divider>
+      <v-divider></v-divider> -->
 
-      <div class="bg-lightprimary rounded-md px-5 py-3 my-3">
+      <!-- <div class="bg-lightprimary rounded-md px-5 py-3 my-3">
         <div class="d-flex align-center justify-space-between">
           <h5 class="text-h5">Start DND Mode</h5>
           <div>
@@ -47,7 +47,7 @@
         </div>
       </div>
 
-      <v-divider></v-divider>
+      <v-divider></v-divider> -->
 
       <v-list class="mt-3">
         <v-list-item color="primary" rounded="md">
@@ -58,7 +58,7 @@
           <v-list-item-title class="text-subtitle-2"> Account Settings</v-list-item-title>
         </v-list-item>
 
-        <v-list-item color="primary" rounded="md">
+        <!-- <v-list-item color="primary" rounded="md">
           <template v-slot:prepend>
             <UserIcon size="20" class="mr-2" />
           </template>
@@ -68,7 +68,7 @@
           <template v-slot:append>
             <v-chip color="warning" class="text-white" text="02" variant="flat" size="small" />
           </template>
-        </v-list-item>
+        </v-list-item> -->
 
         <v-list-item @click="authStore.logout()" color="primary" rounded="md">
           <template v-slot:prepend>

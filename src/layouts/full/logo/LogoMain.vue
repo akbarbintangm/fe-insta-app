@@ -3,5 +3,5 @@
 </script>
 <template>
   <!-- <LogoDark /> -->
-  <v-text class="text-h3">KEPEGAWAIAN</v-text>
+  <v-text class="text-h3">InstaApp</v-text>
 </template>

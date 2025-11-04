@@ -19,9 +19,9 @@
         <v-container fluid class="page-wrapper">
           <div>
             <RouterView />
-            <v-btn class="customizer-btn" size="large" icon variant="flat" color="primary" @click.stop="customizer.SET_CUSTOMIZER_DRAWER(!customizer.Customizer_drawer)">
+            <!-- <v-btn class="customizer-btn" size="large" icon variant="flat" color="primary" @click.stop="customizer.SET_CUSTOMIZER_DRAWER(!customizer.Customizer_drawer)">
               <SettingsIcon class="icon" />
-            </v-btn>
+            </v-btn> -->
           </div>
         </v-container>
         <v-container fluid class="pt-0">

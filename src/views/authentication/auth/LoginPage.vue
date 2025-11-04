@@ -17,9 +17,9 @@
                     <!---Left Part Logo -->
                     <v-row>
                       <v-col cols="12" class="text-center">
-                        <Logo />
+                        <!-- <Logo /> -->
                         <h2 class="text-primary text-h2 mt-8">Hi, Welcome Back</h2>
-                        <h4 class="text-disabled text-h4 mt-3">Enter your credentials to continue</h4>
+                        <h4 class="text-disabled text-h4 mt-3">Enter your credentials to continue InstaApp</h4>
                       </v-col>
                     </v-row>
                     <!---Left Part Logo -->

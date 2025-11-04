@@ -49,7 +49,7 @@ function handleResponse(response: Response): Promise<any> {
       if ([401, 403].includes(response.status) && user) {
         logout();
       }
-      const error = (data && data.message) || response.statusText;
+      const error = (data && data.error) || (data && data.message) || response.statusText;
       return Promise.reject(error);
     }
     return data;
