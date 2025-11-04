@@ -12,11 +12,12 @@ export const useAuthStore = defineStore('auth', {
   }),
 
   actions: {
-    async login(email: string, password: string) {
+    async login(email: string, password: string, remember: boolean = false) {
       try {
         const response = await fetchWrapper.post(`${baseUrl}/login`, {
           email: email,
-          password: password
+          password: password,
+          remember: remember
         });
         if (response.status !== 'success') {
           throw new Error(response.message || 'Login gagal');
@@ -43,7 +44,7 @@ export const useAuthStore = defineStore('auth', {
         if (response.status !== 'success') {
           throw new Error(response.data.error || response.message || 'Register gagal');
         }
-        await this.login(email, password);
+        await this.login(email, password, true);
       } catch (error: any) {
         throw error.message || error;
       }

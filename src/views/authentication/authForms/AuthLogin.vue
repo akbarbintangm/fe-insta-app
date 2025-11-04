@@ -24,7 +24,7 @@
 
   function validate(values: any, { setErrors }: any) {
     const authStore = useAuthStore();
-    return authStore.login(email.value, password.value).catch((error) => {
+    return authStore.login(email.value, password.value, checkbox.value).catch((error) => {
       setErrors({ apiError: error });
     });
   }
