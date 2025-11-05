@@ -1,11 +1,33 @@
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { SettingsIcon, LogoutIcon, UserIcon } from 'vue-tabler-icons';
+  import { SettingsIcon, LogoutIcon, /* UserIcon */ } from 'vue-tabler-icons';
   import { useAuthStore } from '@/stores/auth';
+
+  import { useModalStore } from '@/stores/components/modal';
+  const modal = useModalStore();
 
   const swt1 = ref(true);
   const swt2 = ref(false);
   const authStore = useAuthStore();
+
+  import { useConfirmStore } from '@/stores/components/confirmation';
+  const confirm = useConfirmStore();
+
+  async function logout() {
+    try {
+      await confirm.open("Yakin ingin logout?", "Logout");
+      await authStore.logout()
+        .then(() => {
+        })
+        .catch((error) => {
+          modal.messageDialogActive = true
+          modal.messageDialogText = error
+        })
+        .finally(() => {
+        })
+    } catch (error) {
+    }
+  }
 </script>
 
 <template>
@@ -70,7 +92,7 @@
           </template>
         </v-list-item> -->
 
-        <v-list-item @click="authStore.logout()" color="primary" rounded="md">
+        <v-list-item @click="logout()" color="primary" rounded="md">
           <template v-slot:prepend>
             <LogoutIcon size="20" class="mr-2" />
           </template>
