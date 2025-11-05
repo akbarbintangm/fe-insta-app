@@ -26,15 +26,44 @@
     );
   });
 
-  function validate(values: any, { setErrors }: any) {
-    const authStore = useAuthStore();
-    return authStore.register(firstname.value, lastname.value, email.value, password.value).catch((error) => {
-      setErrors({ apiError: error });
-    });
+  const isLoading = ref(false);
+  const errorMesage = ref('');
+
+  import ModalDialogMessages from '@/components/shared/ModalDialog.vue';
+  import { useModalStore } from '@/stores/components/modal';
+  const modal = useModalStore();
+
+  import ModalConfirmationMessages from '@/components/shared/ConfirmationDialog.vue';
+  import { useConfirmStore } from '@/stores/components/confirmation';
+  const confirm = useConfirmStore();
+
+  const authStore = useAuthStore();
+
+  async function validate(values: any, { setErrors }: any) {
+    isLoading.value = false;
+    try {
+      await confirm.open("Yakin ingin register?", "Register");
+      isLoading.value = true;
+      await authStore.register(firstname.value, lastname.value, email.value, password.value)
+        .catch((error) => {
+          modal.messageDialogActive = true
+          modal.messageDialogText = error
+          errorMesage.value = error
+        })
+        .finally(() => {
+        })
+    } catch (error: any) {
+      errorMesage.value = error;
+    } finally {
+      isLoading.value = false;
+    }
   }
 </script>
 
 <template>
+  <ModalConfirmationMessages v-model="confirm.confirmDialogActive" :message="confirm.confirmDialogText" />
+  <ModalDialogMessages v-model="modal.messageDialogActive" :message="modal.messageDialogText" />
+
   <!-- <v-btn block color="primary" variant="outlined" class="text-lightText googleBtn">
     <img :src="Google" alt="google" />
     <span class="ml-2">Sign up with Google</span></v-btn> -->
@@ -64,9 +93,9 @@
       <v-checkbox v-model="checkbox" :rules="[(v: any) => !!v || 'You must agree to continue!']" label="Agree with?" required color="primary" class="ms-n2" hide-details></v-checkbox>
       <a href="#" class="ml-1 text-lightText">Terms and Condition</a>
     </div>
-    <v-btn :disabled="isFormInvalid" color="primary" :loading="isSubmitting" block class="mt-2" variant="flat" size="large" type="submit">Sign Up</v-btn>
-    <div v-if="errors.apiError" class="mt-2">
-      <v-alert color="error">{{ errors.apiError }}</v-alert>
+    <v-btn :disabled="isFormInvalid" color="primary" :loading="isLoading" block class="mt-2" variant="flat" size="large" type="submit">Sign Up</v-btn>
+    <div v-if="errorMesage" class="mt-2">
+      <v-alert color="error">{{ errorMesage }}</v-alert>
     </div>
   </Form>
   <div class="mt-5 text-right">
