@@ -29,8 +29,10 @@ export const useAuthStore = defineStore('auth', {
         }
         const token = response.data?.token;
         const userData = response.data?.user;
+        const followingData = response.data?.following;
+        const follwerData = response.data?.follwer;
         if (!token) throw new Error('Token tidak ditemukan dalam response');
-        this.user = { userData, token };
+        this.user = { userData, followingData, follwerData, token };
         localStorage.setItem('user', JSON.stringify(this.user));
         router.push(this.returnUrl || '/');
       } catch (error: any) {
