@@ -14,15 +14,19 @@ interface temp {
 }
 
 function request(method: string) {
-  return (url: string, body?: object) => {
-    const requestOptions: temp = {
-      method,
-      headers: authHeader(url)
-    };
-    if (body) {
-      requestOptions.headers['Content-Type'] = 'application/json';
+  return (url: string, body?: any, isFormData = false) => {
+    const headers: Record<string, string> = authHeader(url);
+    const requestOptions: RequestInit = { method, headers };
+
+    if (body && !isFormData) {
+      headers['Content-Type'] = 'application/json';
       requestOptions.body = JSON.stringify(body);
     }
+
+    if (body && isFormData) {
+      requestOptions.body = body;
+    }
+
     return fetch(url, requestOptions).then(handleResponse);
   };
 }
