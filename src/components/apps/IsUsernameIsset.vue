@@ -55,6 +55,7 @@
           isLoading.value = false
         })
     } catch (error: any) {
+      modal.messageDialogActive = true
       modal.messageDialogText = error
     } finally {
       isLoading.value = false;
@@ -106,9 +107,9 @@
 <template>
   <ModalConfirmationMessages v-model="confirm.confirmDialogActive" :message="confirm.confirmDialogText" />
 
-  <v-dialog v-model="internalDialog" max-width="500">
+  <v-dialog elevation="4" persistent v-model="internalDialog" max-width="500">
     <!-- CONTENT -->
-    <v-card title="Penggantian Username">
+    <v-card title="Penggantian Username" elevation="4">
       <v-card-text>
         Username Anda masih belum diset. Silahkan masukkan username yang Anda inginkan sebelum melanjutkan InstaApp.
         <v-text-field :disabled="isLoading" v-model="username" label="New Username" required density="comfortable" hide-details="auto" variant="outlined" color="primary" class="mt-8"

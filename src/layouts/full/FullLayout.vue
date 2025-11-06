@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { router } from '@/router';
-  import { ref, onMounted, watch } from 'vue'
+  import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
   import { RouterView } from 'vue-router';
   import VerticalSidebarVue from './vertical-sidebar/VerticalSidebar.vue';
   import VerticalHeaderVue from './vertical-header/VerticalHeader.vue';
@@ -26,7 +26,24 @@
     if (!authStore.user?.userData?.username) {
       showUsernameDialog.value = true
     }
-  })
+
+    const interval = setInterval(() => {
+      const loggedIn = authStore.checkSession();
+
+      if (!loggedIn) {
+        (async () => {
+          try {
+            await confirm.open('Anda harus login untuk melanjutkan di InstaApp');
+            router.push('/login');
+          } catch {
+          }
+        })();
+      }
+    }, 10000);
+
+    onUnmounted(() => clearInterval(interval));
+  });
+
 
   watch(
     () => authStore.user?.userData,

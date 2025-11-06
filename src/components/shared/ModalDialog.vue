@@ -29,14 +29,9 @@
 </script>
 
 <template>
-  <v-dialog v-model="internalDialog" max-width="500">
-    <!-- ACTIVATOR -->
-    <!-- <template v-slot:activator="{ props: activatorProps }">
-      <v-btn v-bind="activatorProps" color="surface-variant" text="Open Dialog" variant="flat" />
-    </template> -->
-
+  <v-dialog persistent elevation="4" v-model="internalDialog" max-width="500">
     <!-- CONTENT -->
-    <v-card title="Notifications">
+    <v-card title="Notifications" elevation="4">
       <v-card-text>
         {{ modal.messageDialogText }}
       </v-card-text>

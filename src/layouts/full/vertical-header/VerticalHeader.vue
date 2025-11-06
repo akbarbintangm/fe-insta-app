@@ -2,7 +2,7 @@
   import { ref } from 'vue';
   import { useCustomizerStore } from '../../../stores/customizer';
   // Icon Imports
-  import { BellIcon, SettingsIcon, SearchIcon, Menu2Icon, LoginIcon } from 'vue-tabler-icons';
+  import { BellIcon, SettingsIcon, SearchIcon, Menu2Icon, LoginIcon, PlusIcon } from 'vue-tabler-icons';
 
   // dropdown imports
   // import NotificationDD from './NotificationDD.vue';
@@ -18,6 +18,12 @@
   }
 
   const authStore = useAuthStore();
+
+  import ModalCreatePosts from '@/components/apps/posts/CreatePost.vue';
+  import { createPostStore } from '@/stores/components/createpost';
+  const createPost = createPostStore();
+
+  const showCreatePostDialog = ref(false);
 </script>
 
 <template>
@@ -65,6 +71,20 @@
   <NotificationDD />
 </v-sheet>
 </v-menu> -->
+
+    <!-- ---------------------------------------------- -->
+    <!-- Create Post -->
+    <!-- ---------------------------------------------- -->
+    <v-menu :close-on-content-click="false">
+      <template v-slot:activator="{ props }">
+        <v-btn :disabled="!authStore?.user?.userData?.username" class="text-light mx-3" color="primary" rounded="sm" variant="flat" v-bind="props" @click="showCreatePostDialog = true">
+          <PlusIcon stroke-width="1.5" size="22" />
+          Create Post
+        </v-btn>
+        <!-- createPost.createPostDialogActive -->
+        <ModalCreatePosts v-model="showCreatePostDialog" />
+      </template>
+    </v-menu>
 
     <!-- ---------------------------------------------- -->
     <!-- User Profile -->

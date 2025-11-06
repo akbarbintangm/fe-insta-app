@@ -35,9 +35,9 @@
 </script>
 
 <template>
-  <v-dialog v-model="internalDialog" max-width="500">
+  <v-dialog persistent elevation="4" v-model="internalDialog" max-width="500">
     <!-- CONTENT -->
-    <v-card title="Notifications">
+    <v-card title="Notifications" elevation="4">
       <v-card-text>
         {{ confirm.confirmDialogText }}
       </v-card-text>
