@@ -103,6 +103,24 @@ export const useAuthStore = defineStore('auth', {
         pageLoadingState.isLoading = false;
         NProgress.done();
       }
+    },
+
+    checkSession(): boolean {
+      const item = localStorage.getItem('user');
+      if (!item) {
+        this.user = null;
+        return false;
+      }
+
+      try {
+        const parsed = JSON.parse(item);
+        this.user = parsed;
+        return true;
+      } catch (error: any) {
+        this.user = null;
+        localStorage.removeItem('user');
+        throw error.message || error;
+      }
     }
   }
 });
